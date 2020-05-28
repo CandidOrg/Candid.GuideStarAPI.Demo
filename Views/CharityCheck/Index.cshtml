@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Verify";
+}
+
+@*
+    This is a basic view page that uses Bootstrap for formatting, and Vue.js to
+    manage the data displayed. Vue.js attaches to the DIV with the id "app".
+    Look at "/Scripts/verify.js" to see how that and how data on this page is
+    manipulated.
+*@
+@section CSS {
+    <link rel="stylesheet" href="/css/verify.min.css" />
+}
+
+<div class="row container">
+    <h1 class="m-top">Charity Check API</h1>
+</div>
+<div class="row container">
+    <h4>Accepts an EIN.</h4>
+</div>
+
+<div id="app" class="container">
+    <div class="row">
+        <div class="half-width center">
+            <div class="input-group">
+                <input id="searchTerms" type="text" class="txtbx form-control" placeholder="EIN" />
+                <span class="input-group-btn">
+                    <button id="searchButton" class="btn btn-default" type="button">See results</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="verifiedOrg" class="row">
+        <i id="verifyRawJson" class="material-icons" aria-hidden="true" tool-tip-toggle="tooltip-json" data-original-title="The information on this page is generated from the Charity Check/Charity Check Bulk API. Click to view the data!">info</i>
+        <h1>{{verifiedOrg.organization_name}} <a class="btn btn-default" target="_blank" v-bind:href="'/charitycheck/pdf/' + verifiedOrg.ein" download><i class="material-icons" aria-hidden="true">picture_as_pdf</i> Charity Check PDF</a></h1>
+        <h4>{{verifiedOrg.city}}</h4>
+        <p>{{verifiedOrg.foundation_type_description}}</p>
+        <div class="yellow-box">
+            <h3>
+                <i v-if="verifiedOrg.pub78_verified == 'True'" aria-hidden="true" class="material-icons">done</i>
+                <i v-else aria-hidden="true" class="material-icons fontRed">close</i>
+                IRS Publication 78
+            </h3>
+            <p v-if="verifiedOrg.pub78_verified == 'True'">
+                Verified <span v-show="verifiedOrg.most_recent_pub78 != ''"> as of {{verifiedOrg.most_recent_pub78}}</span>
+            </p>
+            <p v-else>
+                Not Verified <span v-show="verifiedOrg.most_recent_pub78 != ''"> as of {{verifiedOrg.most_recent_pub78}}</span>
+            </p>
+            <table>
+                <tr>
+                    <th>Organization Name:</th>
+                    <td>{{verifiedOrg.pub78_organization_name}}</td>
+                </tr>
+                <tr>
+                    <th>EIN:</th>
+                    <td>{{verifiedOrg.pub78_ein}}</td>
+                </tr>
+                <tr>
+                    <th>Most Recent Pub 78:</th>
+                    <td>{{verifiedOrg.most_recent_pub78}}</td>
+                </tr>
+                <tr>
+                    <th>Most Recent IRB:</th>
+                    <td>{{verifiedOrg.most_recent_irb}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="yellow-box">
+            <h3>
+                <i v-show="verifiedOrg.bmf_status == 'True'" aria-hidden="true" class="material-icons">done</i>
+
+                IRS Business Master File
+            </h3>
+            <p v-show="verifiedOrg.bmf_status == 'True'">
+                IRS BMF 509(a)(1)<span v-show="verifiedOrg.most_recent_pub78 != ''"> as of {{verifiedOrg.most_recent_bmf}}</span>
+            </p>
+            <table>
+                <tr>
+                    <th>Organization Name:</th>
+                    <td>{{verifiedOrg.bmf_organization_name}}</td>
+                </tr>
+                <tr>
+                    <th>EIN:</th>
+                    <td>{{verifiedOrg.bmf_ein}}</td>
+                </tr>
+                <tr>
+                    <th>Most Recent BMF:</th>
+                    <td>{{verifiedOrg.most_recent_bmf}}</td>
+                </tr>
+                <tr>
+                    <th>IRS Subsection:</th>
+                    <td>{{verifiedOrg.subsection_description}}</td>
+                </tr>
+                <tr>
+                    <th>Reason for Non-Private Foundation Status:</th>
+                    <td>{{verifiedOrg.foundation_509a_status}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/js/verify.min.js"></script>
+}

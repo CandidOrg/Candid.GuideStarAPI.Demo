@@ -1,0 +1,38 @@
+[
+  {
+    "outputFileName": "wwwroot/css/verify.min.css",
+    "inputFiles": [
+      "Content/verify.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/Site.min.css",
+    "inputFiles": [
+      "Content/Site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/essentials.min.css",
+    "inputFiles": [
+      "Content/essentials.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/verify.min.js",
+    "inputFiles": [
+      "wwwroot/js/verify.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/research.min.js",
+    "inputFiles": [
+      "wwwroot/js/research.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/essentials.min.js",
+    "inputFiles": [
+      "wwwroot/js/essentials.js"
+    ]
+  }
+]

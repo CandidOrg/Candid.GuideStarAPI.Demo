@@ -1,0 +1,223 @@
+﻿@using Newtonsoft.Json.Linq;
+
+@{
+    string dateString = $"from {((DateTime)Model["period_begin"]).ToString("MMM dd, yyyy") ?? string.Empty} to {((DateTime)Model["period_end"]).ToString("MMM dd, yyyy") ?? string.Empty}";
+    if (dateString.TrimEnd().Length == 7)
+    {
+        dateString = string.Empty;
+    }
+}
+
+@model JObject
+
+
+<div class="fiscal-year-details row container" id="year-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" style="display:none;">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="rev-tab" data-toggle="tab" href="#rev-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tab" aria-controls="rev" aria-selected="true">Revenue</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="exp-tab" data-toggle="tab" href="#exp-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tab" aria-controls="exp" aria-selected="false">Expenses</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="net-tab" data-toggle="tab" href="#net-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tab" aria-controls="net" aria-selected="false">Net Gains/Losses</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="func-tab" data-toggle="tab" href="#func-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tab" aria-controls="func" aria-selected="false">Functional Expenses</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="asset-tab" data-toggle="tab" href="#asset-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tab" aria-controls="asset" aria-selected="false">Assets</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="liab-tab" data-toggle="tab" href="#liab-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tab" aria-controls="liab" aria-selected="false">Liabilities</a>
+        </li>
+    </ul>
+    <div class="row container">
+        <div class="col-7 offset-1 tab-content">
+            @*<div class="row">
+                    <span class="fiscal-year-value">Revenue &amp; Expenses @dateString</span>
+                </div>*@
+
+            <div class="tab-pane fade show active" id="rev-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tabpanel" aria-labelledby="rev-tab">
+                <table class="financial-table table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ft-label">Contributions</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["revenue_contributions"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Government Grants</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["revenue_govt_grants"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Program Services</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["revenue_program_services"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Investments</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["revenue_investments"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Special Events</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["revenue_special_events"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Sales</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["revenue_sales"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Other</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["revenue_other"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr class="ft-total-row">
+                            <td class="ft-label">Total Revenue</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["revenue_total"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="exp-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tabpanel" aria-labelledby="exp-tab">
+                <table class="financial-table table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Expenses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ft-label">Program Services</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_program_services"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Administration</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_administration"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Fundraising</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_fundraising"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr class="ft-total-row">
+                            <td class="ft-label">Total Expenses</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expenses_total"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="net-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tabpanel" aria-labelledby="net-tab">
+                <table class="financial-table table">
+                    <thead>
+                        <tr>
+                            <th class="ft-label-header" scope="col">Net Gain/Loss</th>
+                            <th class="ft-value net-gain-loss" scope="col">$@(((decimal?)Model["net_gain_loss"])?.ToString("N") ?? "0.00")</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="func-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tabpanel" aria-labelledby="func-tab">
+                <table class="financial-table table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Functional Expenses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ft-label">Accounting Fees</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_accounting"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Advertising &amp; Promotion</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_advertising_promotion"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Information Technology Expenses</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_info_technology"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Insurance Expenses</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_insurance"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Interest Expenses</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_interest"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Investment Management Fees</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_investment_management"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Legal Fees</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_legal"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Pension Plan Contributions</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_pension_plan"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Publications Expenses</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_publications"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Professional Fundrainsing Expenses</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["expense_professional_fees"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @*<div class="row">
+                    <span class="fiscal-year-value">Balance Sheet @dateString</span>
+                </div>*@
+            <div class="tab-pane fade" id="asset-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tabpanel" aria-labelledby="asset-tab">
+                <table class="financial-table table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Assets</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ft-label">Unrestricted Net Assets</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["unrestricted_net_assets"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Net Fixed Assets</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["net_fixed_assets_LBE"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-label">Net Assets EOY</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["net_assets_end_of_year"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr class="ft-total-row">
+                            <td class="ft-label">Total Assets</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["assets_total"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="liab-9-@(DateTime.Parse(Model["period_end"].ToString()).Year)" role="tabpanel" aria-labelledby="liab-tab">
+                <table class="financial-table table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Liabilities</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ft-label">Notes Payable Mortgages</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["notes_payable_mortgages"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                        <tr class="ft-total-row">
+                            <td class="ft-label">Total Liabilities</td>
+                            <td class="ft-value contributions">$@(((decimal?)Model["liabilities_total"])?.ToString("N") ?? "0.00")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

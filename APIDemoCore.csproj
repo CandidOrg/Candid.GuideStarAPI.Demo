@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>30dc3595-bf90-4466-96bf-8529083e2620</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="compilerconfig.json" />
+    <Content Remove="wwwroot\css\essentials.min.css" />
+    <Content Remove="wwwroot\css\site.css" />
+    <Content Remove="wwwroot\js\essentials.js" />
+    <Content Remove="wwwroot\js\pretty-print-json.js" />
+    <Content Remove="wwwroot\js\research.js" />
+    <Content Remove="wwwroot\js\verify.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+    <None Include="Views\CharityCheck\Index.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
+    <None Include="wwwroot\css\essentials.min.css" />
+    <None Include="wwwroot\css\site.css" />
+    <None Include="wwwroot\js\essentials.js" />
+    <None Include="wwwroot\js\pretty-print-json.js" />
+    <None Include="wwwroot\js\research.js" />
+    <None Include="wwwroot\js\verify.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+</Project>

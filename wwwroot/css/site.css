@@ -1,0 +1,161 @@
+﻿/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/*center input fields*/
+.col-centered{
+    margin: 0 auto;
+    float: none;
+}
+
+/*loading spinner hover in middle of screen*/
+#loadingSpinner{
+    display: none;
+    position: fixed;
+    top: -calc(25%);
+    left: -calc(50% - 50px);
+    top: -webkit-calc(25%);
+    left: -webkit-calc(50% - 50px);
+    top: -moz-calc(25%);
+    left: -moz-calc(50% - 50px);
+    top: -o-calc(25%);
+    left: -o-calc(50% - 50px);
+    z-index:2048;
+}
+.api-title {
+    font-size: 0.8em;
+    font-style: italic;
+    text-align: center;
+}
+
+.api-title a:hover {
+    cursor: pointer;
+}
+
+/*pre raw json area to fit screens*/
+.rawjson {
+    max-height: 500px;
+}
+/*colors used form homepage*/
+.fontIconMd {
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+.fontIcon {
+    text-align: center;
+    font-size: 8em;
+}
+.fontBlue {
+    color: #2fa4e7;
+}
+.fontOrange {
+    color: #dd5600;
+}
+.fontGreen {
+    color: #73a839;
+}
+.fontRed {
+    color: #d41818;
+}
+.charityCheckIcons {
+    font-size: 2em;
+}
+.dataTable tr:hover {
+    cursor: pointer;
+}
+/*glow the info*/
+.newData {
+    -webkit-transition: text-shadow 1.5s linear;
+    -moz-transition: text-shadow 1.5s linear;
+    -ms-transition: text-shadow 1.5s linear;
+    -o-transition: text-shadow 1.5s linear;
+    transition: text-shadow 1.5s linear;
+}
+.newData:hover,
+.newData.glow {
+    text-shadow: 0 0 1.5em #00D1FF;
+}
+.fontToolTip {
+    float:right;
+}
+.fontToolTip:hover {
+    cursor: pointer;
+}
+
+/*pretty print json*/
+.json-key    { color: brown; }
+.json-value  { color: navy; }
+.json-string { color: olive; }
+
+/*prevent modal from making the page jump around (stop it from hiding / showing the scrollbar)*/
+.modal-open {
+  overflow: inherit;
+}
+
+footer {
+  position: relative;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
+}
+/*research page*/
+#verifiedOrg {
+    display: none;
+}
+.profile {
+    text-align: left; 
+    margin: auto; 
+    min-width: 400px;
+    width: 700px;
+}
+.profile img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+#revenueChart, #assLibChart, #textData {
+    display:none;
+}
+#profileSearch {
+    display: none;
+}
+.charts {
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.disabled{
+    text-decoration: line-through;
+}
+.center-table {
+    margin-left: auto;
+    margin-right: auto;
+}
+.center-table td {
+    padding: 2px;
+    vertical-align: top;
+}
+.center-table caption {
+    text-align:center;
+}
+#employeeData ul{
+  list-style: none;
+  width: 200px;
+  margin: 0 auto;
+  display: inline-block;
+}
+#employeeData li{
+  text-align: left;
+}

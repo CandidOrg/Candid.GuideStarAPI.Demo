@@ -1,0 +1,178 @@
+﻿@using Newtonsoft.Json.Linq;
+
+@{
+    string dateString = $"from {((DateTime)Model["period_begin"]).ToString("MMM dd, yyyy") ?? string.Empty} to {((DateTime)Model["period_end"]).ToString("MMM dd, yyyy") ?? string.Empty}";
+    if (dateString.TrimEnd().Length == 7)
+    {
+        dateString = string.Empty;
+    }
+}
+
+@model JObject
+
+<div class="fiscal-year-details" id="year-f-@(DateTime.Parse(Model["period_end"].ToString()).Year)" style="display:none;">
+    <span class="fiscal-year-value">Revenue &amp; Expenses @dateString</span>
+    <table class="financial-table">
+        <thead>
+            <tr>
+                <th scope="col">Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="ft-label">Cash Equivalent Investible Assets</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["cash_equivalent_investible_assets"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Contributions</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["contributions"])?.ToString("N") ?? "0.00")</td>
+            </tr>            
+            <tr>
+                <td class="ft-label">Net Investment Income</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["investments_us_state_government"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Adjusted Net Income</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["adjusted_net_income"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Expenses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="ft-label">Total Operating Expenses</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["total_operating_expenses"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Expense Salaries Employee Benefits</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_salaries_employee_benefits"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Expense Professional Fees</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_professional_fees"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Expense Occupancy</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_occupancy"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Expense Printing Publications Postage</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_printing_publications_postage"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Expense Other</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_other"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr class="ft-total-row">
+                <td class="ft-label">Total Expenses</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expenses_total"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="financial-table">
+        <thead>
+            <tr>
+                <th class="ft-label-header" scope="col">Net Gain/Loss</th>
+                <th class="ft-value net-gain-loss" scope="col">$@(((decimal?)Model["net_gain_loss"])?.ToString("N") ?? "0.00")</th>
+            </tr>
+        </thead>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Functional Expenses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="ft-label">Accounting Fees</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_accounting"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Advertising &amp; Promotion</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_advertising_promotion"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Information Technology Expenses</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_info_technology"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Insurance Expenses</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_insurance"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Interest Expenses</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_interest"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Investment Management Fees</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_investment_management"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Legal Fees</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_legal"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Pension Plan Contributions</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_pension_plan"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Publications Expenses</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_publications"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Professional Fundrainsing Expenses</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["expense_professional_fees"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <span class="fiscal-year-value">Balance Sheet @dateString</span>
+    <table class="financial-table">
+        <thead>
+            <tr>
+                <th scope="col">Assets</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="ft-label">Unrestricted Net Assets</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["unrestricted_net_assets"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Net Fixed Assets</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["net_fixed_assets_LBE"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr>
+                <td class="ft-label">Net Assets EOY</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["net_assets_end_of_year"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr class="ft-total-row">
+                <td class="ft-label">Total Assets</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["assets_total"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="financial-table">
+        <thead>
+            <tr>
+                <th scope="col">Liabilities</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="ft-label">Net Assets EOY</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["notes_payable_mortgages"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+            <tr class="ft-total-row">
+                <td class="ft-label">Total Liabilities</td>
+                <td class="ft-value contributions">$@(((decimal?)Model["liabilities_total"])?.ToString("N") ?? "0.00")</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

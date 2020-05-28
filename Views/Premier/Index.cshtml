@@ -1,0 +1,100 @@
+﻿
+@{
+  ViewBag.Title = "Premier";
+}
+
+@*
+  This is a basic view page that uses Bootstrap for formatting, and Vue.js to
+  manage the data displayed. Vue.js attaches to the DIV with the id "app".
+  Look at "/Scripts/research.js" to see how that and how data on this page is
+  manipulated. This page also uses HighCharts to display some example charts.
+*@
+
+<div class="row container">
+  <h1 class="m-top">Premier API</h1>
+</div>
+<div class="row container">
+  <h4>Accepts an EIN.</h4>
+</div>
+<div class="row container">
+  <div id="profileSearch" class="col-5">
+    <div class="input-group">
+      <input id="searchTerms" type="text" class="txtbx form-control" placeholder="EIN" />
+      <span class="input-group-btn">
+        <button id="searchButton" class="btn btn-default" type="button">Premier</button>
+      </span>
+    </div>
+  </div>
+</div>
+
+
+<div id="app" style="display:none;">
+
+  <div id="verifiedOrg" class="row container">
+    <div class="profile">
+
+      <i id="researchRawJson" class="material-icons" aria-hidden="true" tool-tip-toggle="tooltip-json" data-original-title="All of the information on this page is generated from the Premier API. Click to view the data!">info</i>
+
+      <img v-show="verifiedOrg.logo_url != ''" :src="verifiedOrg.logo_url" style="max-width: 300px;" />
+
+      <h1>{{verifiedOrg.organization_name}} <button id="searchButton" class="btn btn-default" style="float: right;" data-target="#verifyOrg" data-toggle="modal">Charity Check</button></h1>
+
+      <h4>
+        {{verifiedOrg.city}}, {{verifiedOrg.state}} |  EIN: {{verifiedOrg.ein}} <span v-show="verifiedOrg.website_url != ''">| <a v-bind:href="'//'+verifiedOrg.website_url">{{verifiedOrg.website_url}}</a></span>
+      </h4>
+
+      <p>{{verifiedOrg.mission}}</p>
+    </div>
+  </div>
+
+  <partial name="_Fintables">
+
+    <div class="row charts container">
+      <div id="textData" style="width: 100%;">
+        <i id="revenueRawJson" class="material-icons" aria-hidden="true" tool-tip-toggle="tooltip-json" data-original-title="These charts use financial information from the Premier API. Click to view the data!">info</i>
+      </div>
+      <hr />
+      <div id="revenueChart" style="width:100%; height:400px;"></div>
+      <hr />
+      <div id="assLibChart" style="width:100%; height:400px;"></div>
+    </div>
+
+    @*Charity Check modal*@
+    <div class="modal fade" id="verifyOrg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Charity Check Summary</h4>
+          </div>
+          <div class="modal-body">
+            <div style="text-align: center;">
+              <p v-if="cc.pub78_verified == 'True'">
+                <i class="material-icons" aria-hidden="true">done</i> <strong>IRS Pub 78 Verified</strong> <span v-show="cc.most_recent_pub78 != ''"> as of {{cc.most_recent_pub78}}</span><br />
+              </p>
+              <p v-else>
+                <i class="material-icons fontRed charityCheckIcons" aria-hidden="true">warning</i> <strong>IRS Pub 78 Not Verified</strong><span v-show="cc.most_recent_pub78 != ''"> as of {{cc.most_recent_pub78}}</span><br />
+              </p>
+              <p v-show="cc.bmf_status == 'True'">
+                <i class="material-icons charityCheckIcons" aria-hidden="true">done</i> <strong>IRS BMF 509(a)(1)</strong><span v-show="cc.most_recent_bmf != ''"> as of {{cc.most_recent_bmf}}</span><br />
+              </p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-default" v-bind:href="'/charitycheck/pdf/'+ verifiedOrg.ein" download><i class="material-icons" aria-hidden="true" data-toggle="tooltip" title="Feature available with paid version.">picture_as_pdf</i> Charity Check PDF</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+@section Scripts {
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <script src="/js/research.min.js"></script>
+
+  <script>
+    $('#searchTerms').val('@ViewBag.Id');
+  </script>
+
+}
