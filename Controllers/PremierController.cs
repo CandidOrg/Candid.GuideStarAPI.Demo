@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Candid.GuideStarAPI;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using SalesTeamWebApp.Helpers;
@@ -18,8 +19,7 @@ namespace SalesTeamWebApp.Controllers
     {
       _configuration = configuration;
       _subscriptionKey = _configuration["Keys:PremierKey"];
-      _profileEndpoint = _configuration["Endpoints:ProfileEndpoint"];
-    }
+      }
 
     [Route("")]
     public ActionResult Index()
@@ -42,7 +42,9 @@ namespace SalesTeamWebApp.Controllers
     [Route("get")]
     public async Task<string> Get(string ein)
     {
-      return await APIClient.GetJson(_profileEndpoint, ein, _subscriptionKey);
+      GuideStarClient.Init(_subscriptionKey);
+      
+      return await PremierResource.GetOrganizationAsync(ein);
     }
 
     [Route("GetFinTable")]
@@ -52,9 +54,10 @@ namespace SalesTeamWebApp.Controllers
       return type switch
       {
         "9" => PartialView("_f990BalanceSheet", j),
+        "z" => PartialView("_EZBalanceSheet", j),
+        "f" => PartialView("_PFBalanceSheet", j),
         _ => new EmptyResult(),
       };
     }
-
   }
 }

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -32,27 +31,6 @@ namespace SalesTeamWebApp.Helpers
       // Make the request
       ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
       return await client.GetAsync($"{endpoint}{ein}");
-    }
-
-    public static async Task<T> Post<T>(string endpoint, string subscriptionKey, object request)
-    {
-      if (client.DefaultRequestHeaders.Contains("Subscription-key"))
-      {
-        client.DefaultRequestHeaders.Remove("Subscription-key");
-      }
-      client.DefaultRequestHeaders.Add("Subscription-key", subscriptionKey);
-
-      var jsonRequest = JsonConvert.SerializeObject(request);
-      var stringContent = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
-
-      ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-      var response = await client.PostAsync(endpoint, stringContent);
-      var responseAsJson = await response.Content.ReadAsStringAsync();
-
-      var responseAsModel = JsonConvert.DeserializeObject<T>(responseAsJson);
-
-      return responseAsModel;
     }
 
     // If we want just the JSON string, we'll use this request and skip the deserialization process

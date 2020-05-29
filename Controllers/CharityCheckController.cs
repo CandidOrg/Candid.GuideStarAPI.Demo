@@ -17,10 +17,11 @@ namespace SalesTeamWebApp.Controllers
     private static string _charityCheckEndpoint;
     private static string _charityCheckPdfEndpoint;
 
-    public CharityCheckController (IConfiguration configuration){
+    public CharityCheckController(IConfiguration configuration)
+    {
       _configuration = configuration;
       _subscriptionKey = _configuration["Keys:CharityCheckKey"];
-      _pdfKey =  _configuration["Keys:CharityCheckPDFKey"];
+      _pdfKey = _configuration["Keys:CharityCheckPDFKey"];
       _charityCheckEndpoint = _configuration["Endpoints:CharityCheckEndpoint"];
       _charityCheckPdfEndpoint = _configuration["Endpoints:CharityCheckPDFEndpoint"];
     }
@@ -52,7 +53,7 @@ namespace SalesTeamWebApp.Controllers
         var contentStream = await content.ReadAsStreamAsync();
 
         var provider = new FileExtensionContentTypeProvider();
-        
+
         if (!provider.TryGetContentType(fileName, out string fileType))
         {
           fileType = "application/octet-stream";
