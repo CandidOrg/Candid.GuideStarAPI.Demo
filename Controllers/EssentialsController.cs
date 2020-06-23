@@ -17,7 +17,6 @@ namespace SalesTeamWebApp.Controllers
     {
       _configuration = configuration;
       _subscriptionKey = _configuration["Keys:EssentialsKey"];
-      _searchEndpoint = _configuration["Endpoints:SearchEndpoint"];
     }
 
     public ActionResult Index()

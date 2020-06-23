@@ -36,8 +36,6 @@ namespace SalesTeamWebApp.Controllers
       return View();
     }
 
-
-
     [HttpGet]
     [Route("get")]
     public async Task<string> Get(string ein)

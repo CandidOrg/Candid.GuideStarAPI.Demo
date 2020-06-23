@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Candid.GuideStarAPI;
+using Candid.GuideStarAPI.Resources;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using SalesTeamWebApp.Helpers;
@@ -14,7 +16,6 @@ namespace SalesTeamWebApp.Controllers
 
     private static string _subscriptionKey;
     private static string _pdfKey;
-    private static string _charityCheckEndpoint;
     private static string _charityCheckPdfEndpoint;
 
     public CharityCheckController(IConfiguration configuration)
@@ -22,7 +23,6 @@ namespace SalesTeamWebApp.Controllers
       _configuration = configuration;
       _subscriptionKey = _configuration["Keys:CharityCheckKey"];
       _pdfKey = _configuration["Keys:CharityCheckPDFKey"];
-      _charityCheckEndpoint = _configuration["Endpoints:CharityCheckEndpoint"];
       _charityCheckPdfEndpoint = _configuration["Endpoints:CharityCheckPDFEndpoint"];
     }
 
@@ -37,13 +37,16 @@ namespace SalesTeamWebApp.Controllers
     [HttpGet]
     public async Task<string> Check(string ein)
     {
-      return await APIClient.GetJson(_charityCheckEndpoint, ein, _subscriptionKey);
+      GuideStarClient.Init(_subscriptionKey);
+
+      return await CharityCheckResource.GetOrganizationAsync(ein);
     }
 
     [Route("pdf/{ein}")]
     [HttpGet]
     public async Task<ActionResult> Pdf(string ein)
     {
+      // will be updated when endpoints for pdfs are added to sdk
       var response = await APIClient.Get(_charityCheckPdfEndpoint, ein, _pdfKey);
 
       if (response.IsSuccessStatusCode)

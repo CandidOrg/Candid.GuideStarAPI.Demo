@@ -32,41 +32,6 @@ namespace SalesTeamWebApp.Helpers
       ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
       return await client.GetAsync($"{endpoint}{ein}");
     }
-
-    // If we want just the JSON string, we'll use this request and skip the deserialization process
-    public static async Task<String> GetJson(string endpoint, string ein, string subscriptionKey)
-    {
-      if (client.DefaultRequestHeaders.Contains("Subscription-key"))
-      {
-        client.DefaultRequestHeaders.Remove("Subscription-key");
-      }
-      client.DefaultRequestHeaders.Add("Subscription-key", subscriptionKey);
-
-      ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-      var response = await client.GetAsync($"{endpoint}{ein}");
-      var responseAsJson = await response.Content.ReadAsStringAsync();
-
-      return responseAsJson;
-    }
-
-    public static async Task<string> PostJson(string endpoint, string subscriptionKey, string request)
-    {
-      if (client.DefaultRequestHeaders.Contains("Subscription-key"))
-      {
-        client.DefaultRequestHeaders.Remove("Subscription-key");
-      }
-      client.DefaultRequestHeaders.Add("Subscription-key", subscriptionKey);
-
-      var stringContent = new StringContent(request, Encoding.UTF8, "application/json");
-
-      ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-      var response = await client.PostAsync(endpoint, stringContent);
-      var responseAsJson = await response.Content.ReadAsStringAsync();
-
-      return responseAsJson;
-    }
   }
 }
 
