@@ -1,380 +1,395 @@
-﻿@{
-    ViewBag.Title = "Essentials";
+﻿@model Candid.GuideStarAPI.SearchPayload
+@{
+  ViewBag.Title = "Essentials";
 }
 
 @*
-    This is a basic view page that uses Bootstrap for formatting, and Vue.js to
-    manage the data displayed. Vue.js attaches to the DIV with the id "app".
-    Look at "/Scripts/find.js" to see how that and how data on this page is
-    manipulated. For the essentials API, DataTables are used to display the
-    result.
+  This is a basic view page that uses Bootstrap for formatting, and Vue.js to
+  manage the data displayed. Vue.js attaches to the DIV with the id "app".
+  Look at "/Scripts/find.js" to see how that and how data on this page is
+  manipulated. For the essentials API, DataTables are used to display the
+  result.
 *@
 @section CSS {
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" href="/lib/bootstrap-multiselect/css/bootstrap-multiselect.css" />
-    <link rel="stylesheet" href="/css/essentials.min.css" />
-    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-    <style>
-
-    </style>
+  <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" href="/lib/bootstrap-multiselect/css/bootstrap-multiselect.css" />
+  <link rel="stylesheet" href="/css/essentials.min.css" />
+  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+  <style>
+  </style>
 }
 
 <div class="row container">
-    <h1 class="m-top">
-        Essentials API
-    </h1>
+  <h1 class="m-top">
+    Essentials API
+  </h1>
 </div>
 <div class="row container">
-    <h2>
-        Accepts multi-variable search criteria
-    </h2>
+  <h2>
+    Accepts multi-variable search criteria
+  </h2>
 </div>
 
 <div id="app">
+  <form asp-controller="Essentials" asp-action="Index"
+        data-ajax="true"
+        data-ajax-method="post"
+        data-ajax-begin="showLoadingSpinner"
+        data-ajax-success="updateTable">
+
     <div class="row">
-        <div class="form-group col-lg-8">
-            <label for="searchTerms">Search Terms</label>
-            <input id="searchTerms"
-                   type="text"
-                   class="txtbx form-control" />
-        </div>
+      <div class="form-group col-lg-8">
+        <label for="searchTerms">Search Terms</label>
+        <input asp-for="search_terms" id="searchTerms"
+               class="txtbx form-control" />
+      </div>
     </div>
 
     <div class="row">
-        <div class="form-group col-md-3">
+      <div class="form-group col-md-3">
 
-            <label for="inputNtee">NTEE Code</label>
-            <select id="inputNtee" multiple="multiple">
-                <option value="A00; A_artsCultureAndHumanities">Arts, Culture, and Humanities</option>
-                <option value="B00; B_education">Education</option>
-                <option value="C00; C_environmentalQualityProtectionAndBeautification">Environmental Quality, Protection, and Beautification</option>
-                <option value="D00; D_animalRelated">Animal Related</option>
-                <option value="E00; E_healthGeneralAndRehabilitative">Health: General and Rehabilitative</option>
-                <option value="F00; F_mentalHealthCrisisIntervention">Mental Health Crisis Intervention</option>
-                <option value="G00; G_diseasesDisordersMedicalDisciplines">Diseases Disorders Medical Disciplines</option>
-                <option value="H00; H_medicalResearch">Medical Research</option>
-                <option value="I00; I_crimeLegalRelated">Crime: Legal Related</option>
-                <option value="J00; J_employmentJobRelated">Employment: Job Related</option>
-                <option value="K00; K_foodAgricultureAndNutrition">Food: Agriculture and Nutrition</option>
-                <option value="L00; L_housingShelter">Housing Shelter</option>
-                <option value="M00; M_publicSafetyDisasterPreparednessAndRelief">Public Safety Disaster Preparedness And Relief</option>
-                <option value="N00; N_recreationSportsLeisureAthletics">Recreation Sports Leisure Athletics</option>
-                <option value="O00; O_youthDevelopment">Youth Development</option>
-                <option value="P00; P_humanServicesMultipurpose">Human Services Multipurpose</option>
-                <option value="Q00; Q_internationalForeignAffairsAndNationalSecurity">international Foreign Affairs And National Security</option>
-                <option value="R00; R_civilRightsSocialActionAdvocacy">Civil Rights Social Action Advocacy</option>
-                <option value="S00; S_communityImprovementCapacityBuilding">Community Improvement Capacity Building</option>
-                <option value="T00; T_philanthropyVoluntarismAndGrantmakingFoundations">Philanthropy Voluntarism And Grantmaking Foundations</option>
-                <option value="U00; U_scienceAndTechnologyResearchInstitutesServices">Science And Technology Research Institutes Services</option>
-                <option value="V00; V_socialScienceResearchInstitutesServices">Social Science Research Institutes Services</option>
-                <option value="W00; W_publicSocietyBenefitMultipurpose">Public Society Benefit Multipurpose</option>
-                <option value="X00; X_religionRelatedSpiritualDevelopment">Religion Related Spiritual Development</option>
-                <option value="Y00; Y_mutualMembershipBenefitOrganizations">Mutual Membership Benefit Organizations</option>
-                <option value="Z00; Z_unknown">Ynknown</option>
-            </select>
-        </div>
+        <label for="inputNtee">NTEE Code</label>
+        <select id="inputNtee" multiple="multiple" asp-for="filters.organization.ntee_major_codes">
+          <option value="A00; A_artsCultureAndHumanities">Arts, Culture, and Humanities</option>
+          <option value="B00; B_education">Education</option>
+          <option value="C00; C_environmentalQualityProtectionAndBeautification">Environmental Quality, Protection, and Beautification</option>
+          <option value="D00; D_animalRelated">Animal Related</option>
+          <option value="E00; E_healthGeneralAndRehabilitative">Health: General and Rehabilitative</option>
+          <option value="F00; F_mentalHealthCrisisIntervention">Mental Health Crisis Intervention</option>
+          <option value="G00; G_diseasesDisordersMedicalDisciplines">Diseases Disorders Medical Disciplines</option>
+          <option value="H00; H_medicalResearch">Medical Research</option>
+          <option value="I00; I_crimeLegalRelated">Crime: Legal Related</option>
+          <option value="J00; J_employmentJobRelated">Employment: Job Related</option>
+          <option value="K00; K_foodAgricultureAndNutrition">Food: Agriculture and Nutrition</option>
+          <option value="L00; L_housingShelter">Housing Shelter</option>
+          <option value="M00; M_publicSafetyDisasterPreparednessAndRelief">Public Safety Disaster Preparedness And Relief</option>
+          <option value="N00; N_recreationSportsLeisureAthletics">Recreation Sports Leisure Athletics</option>
+          <option value="O00; O_youthDevelopment">Youth Development</option>
+          <option value="P00; P_humanServicesMultipurpose">Human Services Multipurpose</option>
+          <option value="Q00; Q_internationalForeignAffairsAndNationalSecurity">international Foreign Affairs And National Security</option>
+          <option value="R00; R_civilRightsSocialActionAdvocacy">Civil Rights Social Action Advocacy</option>
+          <option value="S00; S_communityImprovementCapacityBuilding">Community Improvement Capacity Building</option>
+          <option value="T00; T_philanthropyVoluntarismAndGrantmakingFoundations">Philanthropy Voluntarism And Grantmaking Foundations</option>
+          <option value="U00; U_scienceAndTechnologyResearchInstitutesServices">Science And Technology Research Institutes Services</option>
+          <option value="V00; V_socialScienceResearchInstitutesServices">Social Science Research Institutes Services</option>
+          <option value="W00; W_publicSocietyBenefitMultipurpose">Public Society Benefit Multipurpose</option>
+          <option value="X00; X_religionRelatedSpiritualDevelopment">Religion Related Spiritual Development</option>
+          <option value="Y00; Y_mutualMembershipBenefitOrganizations">Mutual Membership Benefit Organizations</option>
+          <option value="Z00; Z_unknown">Ynknown</option>
+        </select>
+      </div>
 
-        <div class="form-group col-md-3">
-            <label for="inputCity">City</label>
-            <input type="text"
+      <div class="form-group col-md-3">
+        <label for="inputCity">City</label>
+        <input type="text" asp-for="filters.geography.city"
+               class="txtbx form-control"
+               id="inputCity">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputState">State</label>
+        <select id="inputState" asp-for="filters.geography.state"
+                multiple
+                class="custom-select"
+                searchable="Search here..">
+          <option value="AK">Alaska</option>
+          <option value="AL">Alabama</option>
+          <option value="AZ">Arizona</option>
+          <option value="AR">Arkansas</option>
+          <option value="CA">California</option>
+          <option value="CO">Colorado</option>
+          <option value="CT">Connecticut</option>
+          <option value="DE">Delaware</option>
+          <option value="DC">District Of Columbia</option>
+          <option value="FL">Florida</option>
+          <option value="GA">Georgia</option>
+          <option value="HI">Hawaii</option>
+          <option value="ID">Idaho</option>
+          <option value="IL">Illinois</option>
+          <option value="IN">Indiana</option>
+          <option value="IA">Iowa</option>
+          <option value="KS">Kansas</option>
+          <option value="KY">Kentucky</option>
+          <option value="LA">Louisiana</option>
+          <option value="ME">Maine</option>
+          <option value="MD">Maryland</option>
+          <option value="MA">Massachusetts</option>
+          <option value="MI">Michigan</option>
+          <option value="MN">Minnesota</option>
+          <option value="MS">Mississippi</option>
+          <option value="MO">Missouri</option>
+          <option value="MT">Montana</option>
+          <option value="NE">Nebraska</option>
+          <option value="NV">Nevada</option>
+          <option value="NH">New Hampshire</option>
+          <option value="NJ">New Jersey</option>
+          <option value="NM">New Mexico</option>
+          <option value="NY">New York</option>
+          <option value="NC">North Carolina</option>
+          <option value="ND">North Dakota</option>
+          <option value="OH">Ohio</option>
+          <option value="OK">Oklahoma</option>
+          <option value="OR">Oregon</option>
+          <option value="PA">Pennsylvania</option>
+          <option value="RI">Rhode Island</option>
+          <option value="SC">South Carolina</option>
+          <option value="SD">South Dakota</option>
+          <option value="TN">Tennessee</option>
+          <option value="TX">Texas</option>
+          <option value="UT">Utah</option>
+          <option value="VT">Vermont</option>
+          <option value="VA">Virginia</option>
+          <option value="WA">Washington</option>
+          <option value="WV">West Virginia</option>
+          <option value="WI">Wisconsin</option>
+          <option value="WY">Wyoming</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputZip">Zip</label>
+        <input type="text" asp-for="filters.geography.zip"
+               class="txtbx form-control"
+               id="inputZip">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <h4 class="m-top">Total revenue</h4>
+        <div class="form-row">
+          <div class="col-lg-6">
+            <label for="totalRevenueMin">Min</label>
+            <input type="number" asp-for="filters.financials.total_revenue.min"
                    class="txtbx form-control"
-                   id="inputCity">
-        </div>
-        <div class="form-group col-md-3">
-            <label for="inputState">State</label>
-            <select id="inputState"
-                    multiple
-                    class="custom-select"
-                    searchable="Search here..">
-                <option value="AK">Alaska</option>
-                <option value="AL">Alabama</option>
-                <option value="AZ">Arizona</option>
-                <option value="AR">Arkansas</option>
-                <option value="CA">California</option>
-                <option value="CO">Colorado</option>
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="DC">District Of Columbia</option>
-                <option value="FL">Florida</option>
-                <option value="GA">Georgia</option>
-                <option value="HI">Hawaii</option>
-                <option value="ID">Idaho</option>
-                <option value="IL">Illinois</option>
-                <option value="IN">Indiana</option>
-                <option value="IA">Iowa</option>
-                <option value="KS">Kansas</option>
-                <option value="KY">Kentucky</option>
-                <option value="LA">Louisiana</option>
-                <option value="ME">Maine</option>
-                <option value="MD">Maryland</option>
-                <option value="MA">Massachusetts</option>
-                <option value="MI">Michigan</option>
-                <option value="MN">Minnesota</option>
-                <option value="MS">Mississippi</option>
-                <option value="MO">Missouri</option>
-                <option value="MT">Montana</option>
-                <option value="NE">Nebraska</option>
-                <option value="NV">Nevada</option>
-                <option value="NH">New Hampshire</option>
-                <option value="NJ">New Jersey</option>
-                <option value="NM">New Mexico</option>
-                <option value="NY">New York</option>
-                <option value="NC">North Carolina</option>
-                <option value="ND">North Dakota</option>
-                <option value="OH">Ohio</option>
-                <option value="OK">Oklahoma</option>
-                <option value="OR">Oregon</option>
-                <option value="PA">Pennsylvania</option>
-                <option value="RI">Rhode Island</option>
-                <option value="SC">South Carolina</option>
-                <option value="SD">South Dakota</option>
-                <option value="TN">Tennessee</option>
-                <option value="TX">Texas</option>
-                <option value="UT">Utah</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WA">Washington</option>
-                <option value="WV">West Virginia</option>
-                <option value="WI">Wisconsin</option>
-                <option value="WY">Wyoming</option>
-            </select>
-        </div>
-        <div class="form-group col-md-3">
-            <label for="inputZip">Zip</label>
-            <input type="text"
+                   id="totalRevenueMin">
+          </div>
+          <div class="col-lg-6">
+            <label for="totalRevenueMax">Max</label>
+            <input type="number" asp-for="filters.financials.total_revenue.max"
                    class="txtbx form-control"
-                   id="inputZip">
+                   id="totalRevenueMax">
+          </div>
         </div>
+      </div>
+      <div class="col-md-4">
+        <h4 class="m-top">Total expenses</h4>
+        <div class="form-row">
+          <div class="col-lg-6">
+            <label for="totalExpensesMin">Min</label>
+            <input type="number" asp-for="filters.financials.total_expenses.min"
+                   class="txtbx form-control"
+                   id="totalExpensesMin">
+          </div>
+          <div class="col-lg-6">
+            <label for="totalExpensesMax">Max</label>
+            <input type="number" asp-for="filters.financials.total_expenses.max"
+                   class="txtbx form-control"
+                   id="totalExpensesMax">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h4 class="m-top">Total assets</h4>
+        <div class="form-row">
+          <div class="col-lg-6">
+            <label for="totalAssetsMin">Min</label>
+            <input type="number" asp-for="filters.financials.total_assets.min"
+                   class="txtbx form-control"
+                   id="totalAssetsMin">
+          </div>
+          <div class="col-lg-6">
+            <label for="totalAssetsMax">Max</label>
+            <input type="number" asp-for="filters.financials.total_assets.max"
+                   class="txtbx form-control"
+                   id="totalAssetsMax">
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="row">
-        <div class="col-md-4">
-            <h4 class="m-top">Total revenue</h4>
-            <div class="form-row">
-                <div class="col-lg-6">
-                    <label for="totalRevenueMin">Min</label>
-                    <input type="number"
-                           class="txtbx form-control"
-                           id="totalRevenueMin">
-                </div>
-                <div class="col-lg-6">
-                    <label for="totalRevenueMax">Max</label>
-                    <input type="number"
-                           class="txtbx form-control"
-                           id="totalRevenueMax">
-                </div>
-            </div>
+      <div class="col-md-6">
+        <h4 class="m-top">Organizational exclusions</h4>
+        <label for="excludeRevoked">
+          <input id="hdnExcludeRevoked" type="hidden" asp-for="filters.organization.specific_exclusions.exclude_revoked_organizations">
+          <input type="checkbox"
+                 id="excludeRevoked"
+                 data-toggle="toggle"
+                 data-on="✔"
+                 data-off="✕"
+                 data-onstyle="warning"
+                 data-offstyle="dark"
+                 onchange="$('#hdnExcludeRevoked').val(this.checked)">
+          Exclude Organizations with Revoked Tax Exempt Status
+        </label>
+        <label for="exludeDefunct">
+          <input id="hdnExludeDefunct" type="hidden" asp-for="filters.organization.specific_exclusions.exclude_defunct_or_merged_organizations">
+          <input type="checkbox"
+                 id="exludeDefunct"
+                 data-toggle="toggle"
+                 data-on="✔"
+                 data-off="✕"
+                 data-onstyle="warning"
+                 data-offstyle="dark"
+                 onchange="$('#hdnExludeDefunct').val(this.checked)">
+          Exclude Defunct or Merged Organizations
+        </label>
+      </div>
+      <div class="col-md-6">
+        <h4 class="m-top">IRS status reporting</h4>
+        <div class="pl-0">
+          <label for="pub78verified">
+            <input id="hdnPub78Verified" type="hidden" asp-for="filters.organization.pub78_verified" value="true">
+            <input type="checkbox"
+                   id="pub78verified"
+                   data-toggle="toggle"
+                   data-on="✔"
+                   data-off="✕"
+                   data-onstyle="warning"
+                   data-offstyle="dark"
+                   onchange="$('#hdnPub78Verified').val(this.checked)"
+                   checked>
+            IRS Pub 78 Verified
+          </label>
         </div>
-        <div class="col-md-4">
-            <h4 class="m-top">Total expenses</h4>
-            <div class="form-row">
-                <div class="col-lg-6">
-                    <label for="totalExpensesMin">Min</label>
-                    <input type="number"
-                           class="txtbx form-control"
-                           id="totalExpensesMin">
-                </div>
-                <div class="col-lg-6">
-                    <label for="totalExpensesMax">Max</label>
-                    <input type="number"
-                           class="txtbx form-control"
-                           id="totalExpensesMax">
-                </div>
-            </div>
+        <div class="pl-0">
+          <label for="bmfVerified">
+            <input id="hdnBmfVerified" type="hidden" asp-for="filters.organization.bmf_status" value="true">
+            <input type="checkbox"
+                   id="bmfVerified"
+                   data-toggle="toggle"
+                   data-on="✔"
+                   data-off="✕"
+                   data-onstyle="warning"
+                   data-offstyle="dark"
+                   onchange="$('#hdnBmfVerified').val(this.checked)"
+                   checked>
+            IRS BMF Verified
+          </label>
         </div>
-        <div class="col-md-4">
-            <h4 class="m-top">Total assets</h4>
-            <div class="form-row">
-                <div class="col-lg-6">
-                    <label for="totalAssetsMin">Min</label>
-                    <input type="number"
-                           class="txtbx form-control"
-                           id="totalAssetsMin">
-                </div>
-                <div class="col-lg-6">
-                    <label for="totalAssetsMax">Max</label>
-                    <input type="number"
-                           class="txtbx form-control"
-                           id="totalAssetsMax">
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
 
     <div class="row">
-        <div class="col-md-6">
-            <h4 class="m-top">Organizational exclusions</h4>
-            <label for="excludeRevoked">
-                <input type="checkbox"
-                       id="excludeRevoked"
-                       data-toggle="toggle"
-                       data-on="✔"
-                       data-off="✕"
-                       data-onstyle="warning"
-                       data-offstyle="dark">
-                Exclude Organizations with Revoked Tax Exempt Status
-            </label>
-            <label for="exludeDefunct">
-                <input type="checkbox"
-                       id="exludeDefunct"
-                       data-toggle="toggle"
-                       data-on="✔"
-                       data-off="✕"
-                       data-onstyle="warning"
-                       data-offstyle="dark">
-                Exclude Defunct or Merged Organizations
-            </label>
-        </div>
-        <div class="col-md-6">
-            <h4 class="m-top">IRS status reporting</h4>
-            <div class="pl-0">
-                <label for="pub78verified">
-                    <input type="checkbox"
-                           id="pub78verified"
-                           data-toggle="toggle"
-                           data-on="✔"
-                           data-off="✕"
-                           data-onstyle="warning"
-                           data-offstyle="dark"
-                           checked>
-                    IRS Pub 78 Verified
-                </label>
-            </div>
-            <div class="pl-0">
-                <label for="bmfVerified">
-                    <input type="checkbox"
-                           id="bmfVerified"
-                           data-toggle="toggle"
-                           data-on="✔"
-                           data-off="✕"
-                           data-onstyle="warning"
-                           data-offstyle="dark"
-                           checked>
-                    IRS BMF Verified
-                </label>
-            </div>
-        </div>
+      <span class="input-group-btn col-md-12">
+        <button id="searchButton"
+                class="btn btn-default center"
+                type="submit">
+          See Results
+        </button>
+      </span>
     </div>
+  </form>
 
-    <div class="row">
-        <span class="input-group-btn col-md-12">
-            <button id="searchButton"
-                    class="btn btn-default center"
-                    type="button">
-                See Results
-            </button>
-        </span>
-    </div>
+  <table id="searchResults"
+         class="display">
+    <thead>
+      <tr>
+        <th>Organization Name</th>
+        <th>EIN</th>
+        <th>Location</th>
+        <th>Revenue</th>
+        <th>Mission</th>
+      </tr>
+    </thead>
+  </table>
 
-    <table id="searchResults"
-           class="display">
-        <thead>
-            <tr>
-                <th>Organization Name</th>
-                <th>EIN</th>
-                <th>Location</th>
-                <th>Revenue</th>
-                <th>Mission</th>
-            </tr>
-        </thead>
-    </table>
-
-    <div class="modal fade"
-         id="detailedInfo"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        {{currentOrg.organization_name}} | {{currentOrg.ein}}
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <h4>Contact</h4>
-                    <p>
-                        {{currentOrg.address_line_1}}<br />
-                        <span v-show="currentOrg.address_line_2 != null">{{currentOrg.address_line_2}} <br /></span>
-                        {{currentOrg.city}}, {{currentOrg.state}} {{currentOrg.zip}} <br />
-                        {{currentOrg.contact_phone}}
-                    </p>
-                    <h4>Mission</h4>
-                    <p>{{currentOrg.mission}}</p>
-                    <p style="float:right;"><a v-bind:href="'//' + currentOrg.website">{{currentOrg.website}}</a></p>
-                </div>
-                <div class="modal-footer">
-                    <a id="researchOrg" class="btn btn-default" v-bind:href="'/premier/' + currentOrg.ein" role="button">
-                        Premier
-                    </a>
-                    <button id="verifyOrg" type="button" class="btn btn-default">Charity Check</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
+  <div class="modal fade"
+       id="detailedInfo"
+       tabindex="-1"
+       role="dialog"
+       aria-labelledby="myModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            {{currentOrg.organization_name}} | {{currentOrg.ein}}
+          </h4>
         </div>
-    </div>
-
-    @*Charity Check modal*@
-    <div class="modal fade"
-         id="verifiedOrg"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        Charity Check Summary
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div style="text-align: center;">
-                        <p v-if="verifiedOrg.pub78_verified == 'True'">
-                            <i class="material-icons" aria-hidden="true">done</i>
-                            <strong>IRS Pub 78 Verified</strong>
-                            <span v-show="verifiedOrg.most_recent_pub78 != ''"> as of {{verifiedOrg.most_recent_pub78}}</span>
-                            <br />
-                        </p>
-                        <p v-else>
-                            <i class="fa fa-exclamation-triangle fontRed charityCheckIcons faa-ring animated faa-slow" aria-hidden="true"></i> <strong>IRS Pub 78 Not Verified</strong><span v-show="verifiedOrg.most_recent_pub78 != ''"> as of {{verifiedOrg.most_recent_pub78}}</span><br />
-                        </p>
-                        <p v-show="verifiedOrg.bmf_status == 'True'">
-                            <i class="material-icons" aria-hidden="true">done</i> <strong>IRS BMF 509(a)(1)</strong><span v-show="verifiedOrg.most_recent_bmf != ''"> as of {{verifiedOrg.most_recent_bmf}}</span><br />
-                        </p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-default"
-                       v-bind:href="'/charitycheck/pdf/' + verifiedOrg.ein"
-                       target="_blank" download>
-                        <i class="material-icons"
-                           aria-hidden="true"
-                           data-toggle="tooltip"
-                           title="Feature available with paid version.">picture_as_pdf</i>
-                        Download PDF
-                    </a>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
+        <div class="modal-body">
+          <h4>Contact</h4>
+          <p>
+            {{currentOrg.address_line_1}}<br />
+            <span v-show="currentOrg.address_line_2 != null">{{currentOrg.address_line_2}} <br /></span>
+            {{currentOrg.city}}, {{currentOrg.state}} {{currentOrg.zip}} <br />
+            {{currentOrg.contact_phone}}
+          </p>
+          <h4>Mission</h4>
+          <p>{{currentOrg.mission}}</p>
+          <p style="float:right;"><a v-bind:href="'//' + currentOrg.website">{{currentOrg.website}}</a></p>
         </div>
+        <div class="modal-footer">
+          <a id="researchOrg" class="btn btn-default" v-bind:href="'/premier/' + currentOrg.ein" role="button">
+            Premier
+          </a>
+          <button id="verifyOrg" type="button" class="btn btn-default">Charity Check</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
+  </div>
+
+  @*Charity Check modal*@
+  <div class="modal fade"
+       id="verifiedOrg"
+       tabindex="-1"
+       role="dialog"
+       aria-labelledby="myModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            Charity Check Summary
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;">
+            <p v-if="verifiedOrg.pub78_verified == 'True'">
+              <i class="material-icons" aria-hidden="true">done</i>
+              <strong>IRS Pub 78 Verified</strong>
+              <span v-show="verifiedOrg.most_recent_pub78 != ''"> as of {{verifiedOrg.most_recent_pub78}}</span>
+              <br />
+            </p>
+            <p v-else>
+              <i class="fa fa-exclamation-triangle fontRed charityCheckIcons faa-ring animated faa-slow" aria-hidden="true"></i> <strong>IRS Pub 78 Not Verified</strong><span v-show="verifiedOrg.most_recent_pub78 != ''"> as of {{verifiedOrg.most_recent_pub78}}</span><br />
+            </p>
+            <p v-show="verifiedOrg.bmf_status == 'True'">
+              <i class="material-icons" aria-hidden="true">done</i> <strong>IRS BMF 509(a)(1)</strong><span v-show="verifiedOrg.most_recent_bmf != ''"> as of {{verifiedOrg.most_recent_bmf}}</span><br />
+            </p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-default"
+             v-bind:href="'/charitycheck/pdf/' + verifiedOrg.ein"
+             target="_blank" download>
+            <i class="material-icons"
+               aria-hidden="true"
+               data-toggle="tooltip"
+               title="Feature available with paid version.">picture_as_pdf</i>
+            Download PDF
+          </a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 @section Scripts{
-    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.datatables.net/plug-ins/1.10.16/dataRender/ellipsis.js"></script>
-    <script src="/lib/bootstrap-multiselect/js/bootstrap-multiselect.min.js"></script>
-    <script src="/js/essentials.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+  <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <script src="//cdn.datatables.net/plug-ins/1.10.16/dataRender/ellipsis.js"></script>
+  <script src="/lib/bootstrap-multiselect/js/bootstrap-multiselect.min.js"></script>
+  <script src="lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+  <script src="/js/essentials.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 }

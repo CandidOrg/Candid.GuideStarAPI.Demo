@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Candid.GuideStarAPI;
+using Candid.GuideStarAPI.Resources;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using SalesTeamWebApp.Helpers;
 using System.Threading.Tasks;
 
 namespace SalesTeamWebApp.Controllers
@@ -31,9 +32,12 @@ namespace SalesTeamWebApp.Controllers
     }
 
     [HttpPost]
-    public async Task<string> Index(string request)
+    [ValidateAntiForgeryToken]
+    public async Task<string> Index(SearchPayload request)
     {
-      return await APIClient.PostJson(_searchEndpoint, _subscriptionKey, request);
+      GuideStarClient.Init(_subscriptionKey);
+
+      return await EssentialsResource.GetOrganizationAsync(request);
     }
   }
 }

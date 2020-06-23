@@ -1,8 +1,8 @@
 ﻿using Candid.GuideStarAPI;
+using Candid.GuideStarAPI.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
-using SalesTeamWebApp.Helpers;
 using System.Threading.Tasks;
 
 namespace SalesTeamWebApp.Controllers

@@ -1,4 +1,5 @@
-﻿$(function () {
+﻿var vueapp;
+$(function () {
   // init new Vue instance
   var app = new Vue({
     el: '#app',
@@ -101,79 +102,6 @@
   });
 
   /*
-   * Make a POST call using AJAX to our controller, normally the controller would then manipulate and return
-   * a DTO for json. Since we want to display the raw JSON I opted to just return the raw JSON instead.
-   */
-  $("#searchButton").on("click", function (event) {
-    // This is our search filters we'll use to narrow our results, passed in the request
-    var request = {
-      search_terms: $("#searchTerms").val(),
-      from: 0,
-      size: 25,
-      filters: {
-        geography: {
-          state: $("#inputState").val() || undefined,
-          zip: $("#inputZip").val() || undefined,
-          city: $("#inputCity").val() || undefined
-        },
-        organization: {
-          //profile_levels: $("#inputLevel").val() !== "null" ? [$("#inputLevel").val()] : [],
-          ntee_major_codes: $("#inputNtee").val().length ? $("#inputNtee").val() : undefined,
-          bmf_status: document.getElementById("bmfVerified").checked,
-          pub78_verified: document.getElementById("pub78verified").checked,
-          specific_exclusions: {
-            exclude_revoked_organizations: document.getElementById("excludeRevoked").checked,
-            exclude_defunct_or_merged_organizations: document.getElementById("exludeDefunct").checked
-          }
-        },
-        financials: {
-          form990_total_revenue: {
-            min: document.getElementById("totalRevenueMin").value || undefined,
-            max: document.getElementById("totalRevenueMax").value || undefined
-          },
-          form990_total_expenses: {
-            min: document.getElementById("totalExpensesMin").value || undefined,
-            max: document.getElementById("totalExpensesMax").value || undefined
-          },
-          form990_total_assets: {
-            min: document.getElementById("totalAssetsMin").value || undefined,
-            max: document.getElementById("totalAssetsMax").value || undefined
-          }
-        }
-      }
-    };
-
-    $.ajax({
-      method: "POST",
-      url: "/essentials",
-      data: { request: JSON.stringify(request) },
-      dataType: "json",
-      beforeSend: function () {
-        $("#loadingSpinner").show();
-      },
-      success: function (response) {
-        $("#loadingSpinner").hide();
-
-        if (response.code === 200) {
-          // prevent datatable from breaking
-          app.tableData = response.data.total_hits > 0 ? response.data.hits : [];
-          app.searchJson = response; // used to display our raw JSON response
-        } else {
-          $("#errorMessage").html(response.message);
-          $("#errorModal").modal("show");
-        }
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        $("#loadingSpinner").hide();
-        console.log("Error when doing /api/search request");
-        console.log(textStatus);
-        console.dir(jqXHR);
-        console.dir(textStatus);
-      }
-    });
-  });
-
-  /*
    * Make a GET call using AJAX to our controller, normally the controller would then manipulate and return
    * a DTO for json. Since we want to display the raw JSON I opted to just return the raw JSON instead.
    */
@@ -236,4 +164,32 @@
     maxHeight: 200,
     buttonWidth: '100%'
   });
+  vueapp = app;
 });
+
+function showLoadingSpinner() {
+  $("#loadingSpinner").show();
+}
+
+function updateTable(xhr) {
+  $("#loadingSpinner").hide();
+
+  var response = JSON.parse(xhr);
+
+  if (response.code === 200) {
+    // prevent datatable from breaking
+    vueapp.tableData = response.data.total_hits > 0 ? response.data.hits : [];
+    vueapp.searchJson = response; // used to display our raw JSON response
+  } else {
+    $("#errorMessage").html(response.message);
+    $("#errorModal").modal("show");
+  }
+}
+
+function ajaxError(jqXHR, textStatus, errorThrown) {
+  $("#loadingSpinner").hide();
+  console.log("Error when doing /api/search request");
+  console.log(textStatus);
+  console.dir(jqXHR);
+  console.dir(textStatus);
+}
