@@ -33,7 +33,7 @@
     <None Include="wwwroot\js\verify.js" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Candid.GuideStarAPI" Version="0.0.9-CI-20200615-162612" />
+    <PackageReference Include="Candid.GuideStarAPI" Version="1.0.0-CI-20201014-151011" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>

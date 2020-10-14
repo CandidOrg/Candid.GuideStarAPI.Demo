@@ -24,6 +24,9 @@ namespace SalesTeamWebApp.Controllers
       _subscriptionKey = _configuration["Keys:CharityCheckKey"];
       _pdfKey = _configuration["Keys:CharityCheckPDFKey"];
       _charityCheckPdfEndpoint = _configuration["Endpoints:CharityCheckPDFEndpoint"];
+
+      if (!string.IsNullOrEmpty(_subscriptionKey))
+        GuideStarClient.SubscriptionKeys.Add(Domain.CharityCheckV1, _subscriptionKey);
     }
 
     [Route("")]
@@ -37,8 +40,6 @@ namespace SalesTeamWebApp.Controllers
     [HttpGet]
     public async Task<string> Check(string ein)
     {
-      GuideStarClient.Init(_subscriptionKey);
-
       return await CharityCheckResource.GetOrganizationAsync(ein);
     }
 

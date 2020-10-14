@@ -13,13 +13,15 @@ namespace SalesTeamWebApp.Controllers
     private readonly IConfiguration _configuration;
 
     private static string _subscriptionKey;
-    private static string _profileEndpoint;
 
     public PremierController(IConfiguration configuration)
     {
       _configuration = configuration;
       _subscriptionKey = _configuration["Keys:PremierKey"];
-      }
+
+      if (!string.IsNullOrEmpty(_subscriptionKey))
+        GuideStarClient.SubscriptionKeys.Add(Domain.PremierV3, _subscriptionKey);
+    }
 
     [Route("")]
     public ActionResult Index()
@@ -40,8 +42,6 @@ namespace SalesTeamWebApp.Controllers
     [Route("get")]
     public async Task<string> Get(string ein)
     {
-      GuideStarClient.Init(_subscriptionKey);
-      
       return await PremierResource.GetOrganizationAsync(ein);
     }
 

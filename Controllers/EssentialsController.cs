@@ -17,6 +17,9 @@ namespace SalesTeamWebApp.Controllers
     {
       _configuration = configuration;
       _subscriptionKey = _configuration["Keys:EssentialsKey"];
+
+      if (!string.IsNullOrEmpty(_subscriptionKey) && !GuideStarClient.SubscriptionKeys.TryGetValue(Domain.EssentialsV2, out var _))
+        GuideStarClient.SubscriptionKeys.Add(Domain.EssentialsV2, _subscriptionKey);
     }
 
     public ActionResult Index()
@@ -34,8 +37,6 @@ namespace SalesTeamWebApp.Controllers
     [ValidateAntiForgeryToken]
     public async Task<string> Index(SearchPayload request)
     {
-      GuideStarClient.Init(_subscriptionKey);
-
       return await EssentialsResource.GetOrganizationAsync(request);
     }
   }
