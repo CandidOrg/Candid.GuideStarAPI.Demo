@@ -1,8 +1,8 @@
-﻿using Candid.GuideStarAPI;
+﻿using System.Threading.Tasks;
+using Candid.GuideStarAPI;
 using Candid.GuideStarAPI.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
 
 namespace SalesTeamWebApp.Controllers
 {
@@ -11,7 +11,6 @@ namespace SalesTeamWebApp.Controllers
     private readonly IConfiguration _configuration;
 
     private static string _subscriptionKey;
-    private static string _searchEndpoint;
 
     public EssentialsController(IConfiguration configuration)
     {
