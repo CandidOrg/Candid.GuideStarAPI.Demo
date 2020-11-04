@@ -1,8 +1,8 @@
 # API Demo Core
-Example project using Candid. API Library nuget package.  Written in .Net Core.
+Example project written in .Net Core using Candid.GuideStarAPI NuGet package
 
 ## Managing API Keys
-- Api keys are stored and retrieved using the [Microsoft Secrets Manager tool](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows)
+- API keys are stored and retrieved using the [Microsoft Secrets Manager tool](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows)
   - Sample secrets.json
   ```json
     {
